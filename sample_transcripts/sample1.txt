@@ -1,0 +1,25 @@
+Attendees: Sarah (Product Manager), Alex (Lead Developer), Liam (UX Designer), Maya (QA Engineer)
+
+Sarah: Hi everyone, let's start today's standup. We need to align on our upcoming mobile app launch. Alex, how is the development progress?
+
+Alex: Dev is on track. The core functionalities are completed. I am currently resolving a memory leak on the login screen. I should finish that today. However, we need to decide on the staging environment for our final integrations.
+
+Sarah: Good point. Let's make a decision: we will use the AWS staging environment for final integration testing, as it matches our production setup best. Also, we must finalize the beta list.
+
+Liam: I have finished the high-fidelity UI designs. I need someone to review the flow of the onboarding process to make sure the onboarding is smooth.
+
+Sarah: Maya, could you review Liam's onboarding designs by next Monday?
+
+Maya: Sure, I can do that. I've also completed the initial test plan, but I need access to the latest staging credentials to begin API testing.
+
+Sarah: Okay, let's decide that Liam will share the staging credentials securely via 1Password by tomorrow morning.
+
+Alex: Great. For the mobile app launch itself, we are targeting next Friday.
+
+Sarah: Yes, that is our firm deadline. We must submit the app to the App Store and Google Play by next Friday. Here are the action items:
+1. Alex will fix the login screen memory leak by this Friday.
+2. Liam will draft the App Store description and promotional assets by next Tuesday.
+3. Maya will complete the regression testing on the AWS staging environment by next Wednesday.
+4. Sarah will prepare the launch checklist and coordinate with marketing by next Thursday.
+
+Sarah: Let's meet again tomorrow. Thanks everyone!
