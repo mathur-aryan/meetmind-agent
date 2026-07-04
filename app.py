@@ -14,6 +14,19 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
+def index() -> tuple:
+    # Root endpoint listing available routes and API status
+    return jsonify({
+        "status": "healthy",
+        "service": "MeetMind Multi-Agent API",
+        "endpoints": {
+            "POST /analyze": "Analyze meeting transcript through the multi-agent pipeline",
+            "GET /memory": "Retrieve all saved meeting summaries and tasks",
+            "GET /search?q=<query>": "Search memory database for keyword matching summaries"
+        }
+    }), 200
+
 def sanitize_input(text: str) -> str:
     # Security Feature: Input Sanitization
     # Strips prompt injection patterns before 
