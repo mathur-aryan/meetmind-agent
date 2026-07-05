@@ -7,77 +7,55 @@
 # Agents Capstone 2026
 # ============================================
 
-import json
-import os
+# In-memory store – survives across requests within
+# the same serverless invocation / process lifetime.
+MEMORY_STORE = {}
 
-MEMORY_FILE = "memory_store.json"
 
 def save_meeting(meeting_id: str, summary: dict, tasks: dict) -> bool:
-    # Saves a meeting's summary and tasks to the local memory_store.json file under a meeting ID.
+    # Saves a meeting's summary and tasks to the in-memory store under a meeting ID.
     try:
-        data = {}
-        if os.path.exists(MEMORY_FILE):
-            with open(MEMORY_FILE, "r") as f:
-                content = f.read().strip()
-                if content:
-                    data = json.loads(content)
-                    
-        data[meeting_id] = {
+        MEMORY_STORE[meeting_id] = {
             "meeting_id": meeting_id,
             "summary": summary,
-            "tasks": tasks
+            "tasks": tasks,
         }
-        
-        with open(MEMORY_FILE, "w") as f:
-            json.dump(data, f, indent=2)
-            
         return True
     except Exception as e:
         print(f"Error saving meeting to memory: {e}")
         return False
 
+
 def search_memory(keyword: str) -> list:
-    # Searches memory_store.json for meetings where keyword appears in summary or topics.
-    # Returns list of matching meeting summaries.
+    # Searches MEMORY_STORE for meetings where keyword appears in
+    # summary text or key_topics. Case-insensitive.
+    # Returns list of matching meeting summary dicts.
     try:
-        if not os.path.exists(MEMORY_FILE):
+        if not MEMORY_STORE:
             return []
-            
-        with open(MEMORY_FILE, "r") as f:
-            content = f.read().strip()
-            if not content:
-                return []
-            data = json.loads(content)
-            
+
         matches = []
         kw = keyword.lower()
-        for meeting in data.values():
+
+        for meeting in MEMORY_STORE.values():
             summary_dict = meeting.get("summary", {})
             summary_text = summary_dict.get("summary", "").lower()
             topics = [t.lower() for t in summary_dict.get("key_topics", [])]
             title = summary_dict.get("meeting_title", "").lower()
-            
+
             if kw in summary_text or any(kw in topic for topic in topics) or kw in title:
                 matches.append(summary_dict)
-                
+
         return matches
     except Exception as e:
         print(f"Error searching memory: {e}")
         return []
 
+
 def get_all_meetings() -> list:
-    # Returns all stored meetings from the memory_store.json file.
+    # Returns all stored meetings from MEMORY_STORE.
     try:
-        if not os.path.exists(MEMORY_FILE):
-            return []
-            
-        with open(MEMORY_FILE, "r") as f:
-            content = f.read().strip()
-            if not content:
-                return []
-            data = json.loads(content)
-            
-        return list(data.values())
+        return list(MEMORY_STORE.values())
     except Exception as e:
         print(f"Error getting all meetings: {e}")
         return []
